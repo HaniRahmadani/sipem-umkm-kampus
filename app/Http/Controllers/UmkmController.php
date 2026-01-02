@@ -18,4 +18,21 @@ class UmkmController extends Controller
         $data = Umkm::with('monitoring')->findOrFail($id);
         return view('umkm.detail', compact('data'));
     }
+
+    public function adminIndex()
+    {
+        $umkm = Umkm::all();
+        return view('admin.umkm.index', compact('umkm'));
+    }
+
+    public function create()
+    {
+        return view('admin.umkm.create');
+    }
+
+    public function store(Request $request)
+    {
+        Umkm::create($request->all());
+        return redirect('/admin/umkm');
+    }
 }
