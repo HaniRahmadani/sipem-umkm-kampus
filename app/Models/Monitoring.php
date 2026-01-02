@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Monitoring extends Model
 {
-    protected $table = 'monitoring';
-    protected $fillable = ['umkm_id','catatan','tanggal'];
-}
+    protected $fillable = ['umkm_id','tanggal','catatan'];
 
+    public function umkm()
+    {
+        return $this->belongsTo(Umkm::class);
+    }
+}

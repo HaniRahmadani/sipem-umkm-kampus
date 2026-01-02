@@ -19,10 +19,15 @@ class UmkmController extends Controller
         return view('umkm.detail', compact('data'));
     }
 
-    public function adminIndex()
+    public function index(Request $request)
     {
-        $umkm = Umkm::all();
-        return view('admin.umkm.index', compact('umkm'));
+        $search = $request->search;
+
+        $umkm = Umkm::where('nama_umkm', 'like', "%$search%")
+                    ->orWhere('kategori', 'like', "%$search%")
+                    ->paginate(5);
+
+        return view('admin.umkm.index', compact('umkm', 'search'));
     }
 
     public function create()
@@ -32,7 +37,15 @@ class UmkmController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'nama_umkm' => 'required',
+            'kategori' => 'required',
+            'status' => 'required'
+        ]);
+
         Umkm::create($request->all());
-        return redirect('/admin/umkm');
+
+        return redirect('/admin/umkm')
+            ->with('success', 'Data UMKM berhasil ditambahkan');
     }
 }

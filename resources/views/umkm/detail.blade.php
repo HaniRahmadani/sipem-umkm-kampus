@@ -1,27 +1,39 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Detail UMKM</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-<body>
+@extends('layouts.app')
 
-<h3>{{ $data->nama_umkm }}</h3>
-<p>{{ $data->deskripsi }}</p>
+@section('title', 'Detail UMKM')
 
-<ul>
-    <li>Alamat: {{ $data->alamat }}</li>
-    <li>Kontak: {{ $data->kontak }}</li>
-    <li>Jam Operasional: {{ $data->jam_operasional }}</li>
-</ul>
+@section('content')
+<div class="container">
+    <h3>{{ $data->nama_umkm }}</h3>
 
-<h4>Riwayat Monitoring</h4>
+    <p><strong>Kategori:</strong> {{ $data->kategori }}</p>
+    <p>
+        <strong>Status:</strong>
+        <span class="badge bg-success">{{ $data->status }}</span>
+    </p>
 
-@foreach($data->monitoring as $m)
-    <p>{{ $m->tanggal }} - {{ $m->catatan }}</p>
-@endforeach
+    <hr>
 
-<a href="/" class="btn">Kembali</a>
+    <h5>Monitoring UMKM</h5>
 
-</body>
-</html>
+    @if($data->monitoring->count())
+        <table class="table table-bordered">
+            <tr>
+                <th>Tanggal</th>
+                <th>Catatan</th>
+            </tr>
+
+            @foreach($data->monitoring as $m)
+            <tr>
+                <td>{{ $m->tanggal }}</td>
+                <td>{{ $m->catatan }}</td>
+            </tr>
+            @endforeach
+        </table>
+    @else
+        <p class="text-muted">Belum ada data monitoring.</p>
+    @endif
+
+    <a href="/" class="btn btn-secondary mt-3">Kembali</a>
+</div>
+@endsection
