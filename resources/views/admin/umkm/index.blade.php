@@ -3,7 +3,8 @@
 @section('title', 'Data UMKM')
 
 @section('content')
-<h3>Data UMKM Kampus</h3>
+
+<h3 class="mb-3">Data UMKM Kampus</h3>
 
 {{-- FORM SEARCH --}}
 <form method="GET" class="mb-3 d-flex" style="max-width:400px">
@@ -14,51 +15,80 @@
         class="form-control me-2"
         placeholder="Cari UMKM..."
     >
-    <button class="btn btn-secondary">
-        Cari
-    </button>
+    <button class="btn btn-secondary">Cari</button>
 </form>
 
-<a href="/admin/umkm/create" class="btn btn-primary mb-3">
+<a href="/admin/umkm/create" class="btn btn-primary mb-4">
     Tambah UMKM
 </a>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Nama</th>
-            <th>Kategori</th>
-            <th>Status</th>
-            <th>Aksi</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($umkm as $u)
-        <tr>
-            <td>{{ $u->nama_umkm }}</td>
-            <td>{{ $u->kategori }}</td>
-            <td>{{ $u->status }}</td>
-            <td>
-                <a href="/admin/monitoring/create/{{ $u->id }}" class="btn btn-info btn-sm">
-                    Monitoring
-                </a>
+<div class="row">
+    @forelse($umkm as $u)
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
 
-                <a href="/admin/umkm/{{ $u->id }}/edit" class="btn btn-warning btn-sm">
-                    Edit
-                </a>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="fw-bold mb-2">
+                        {{ $u->nama_umkm }}
+                    </h5>
 
-                <form action="/admin/umkm/{{ $u->id }}" method="POST" style="display:inline">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger btn-sm">
-                        Hapus
-                    </button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+                    <p class="mb-1">
+                        <strong>Kategori:</strong><br>
+                        {{ $u->kategori }}
+                    </p>
 
-{{ $umkm->appends(request()->query())->links() }}
+                    <p class="mb-1">
+                        <strong>Jam Operasional:</strong><br>
+                        {{ $u->jam_operasional ?? '-' }}
+                    </p>
+
+                    <p class="mb-2">
+                        <strong>Alamat:</strong></br>
+                        {{ $u->alamat ?? '-'}}
+                    </p>
+
+                    <p class="mb-2">
+                        <strong>Status:</strong><br>
+                        <span class="badge {{ strtolower($u->status) == 'aktif' ? 'bg-success' : 'bg-secondary' }}">
+                            {{ ucfirst($u->status) }}
+                        </span>
+                    </p>
+
+                    <div class="mt-auto d-flex flex-wrap gap-1">
+                        <a href="/admin/monitoring/create/{{ $u->id }}"
+                           class="btn btn-info btn-sm">
+                            Monitoring
+                        </a>
+
+                        <a href="/admin/umkm/{{ $u->id }}/edit"
+                           class="btn btn-warning btn-sm">
+                            Edit
+                        </a>
+
+                        <form action="/admin/umkm/{{ $u->id }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Yakin hapus data UMKM ini?')">
+                                Hapus
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    @empty
+        <div class="col-12">
+            <div class="alert alert-warning">
+                Data UMKM belum tersedia.
+            </div>
+        </div>
+    @endforelse
+</div>
+
+<div class="mt-3">
+    {{ $umkm->appends(request()->query())->links() }}
+</div>
+
 @endsection

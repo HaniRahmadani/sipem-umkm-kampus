@@ -48,4 +48,11 @@ class UmkmController extends Controller
         return redirect('/admin/umkm')
             ->with('success', 'Data UMKM berhasil ditambahkan');
     }
+    public function destroy($id)
+    {
+    $umkm = \App\Models\Umkm::findOrFail($id);
+    $umkm->delete();
+
+    return redirect('/admin/umkm')->with('success', 'UMKM berhasil dihapus');
+    }
 }
