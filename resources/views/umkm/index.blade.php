@@ -1,24 +1,62 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>SIPemUMKM Kampus</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-<body>
+@extends('layouts.app')
 
-<h2>SIPemUMKM Kampus</h2>
+@section('title', 'UMKM Kampus')
 
-<div class="wrapper">
-@foreach($umkm as $u)
-    <div class="card">
-        <h4>{{ $u->nama_umkm }}</h4>
-        <p>{{ $u->kategori }}</p>
-        <span class="status-aktif">{{ $u->status }}</span>
-        <br><br>
-        <a href="/umkm/{{ $u->id }}" class="btn">Lihat Detail</a>
-    </div>
-@endforeach
+@section('content')
+
+<div class="d-flex justify-content-end mb-3">
+    <a href="/" class="btn btn-outline-secondary btn-sm">
+        Kembali ke Beranda
+    </a>
 </div>
 
-</body>
-</html>
+<h3 class="mb-4 text-center">Sistem Informasi Pendataan UMKM Kampus</h3>
+
+<div class="row">
+    @forelse($umkms as $u)
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="fw-bold mb-2">
+                        {{ $u->nama_umkm }}
+                    </h5>
+
+                    <p class="mb-1">
+                        <strong>Kategori:</strong><br>
+                        {{ $u->kategori }}
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Jam Operasional:</strong><br>
+                        {{ $u->jam_operasional ?? '-' }}
+                    </p>
+
+                    <p class="mb-2">
+                        <strong>Alamat:</strong><br>
+                        {{ $u->alamat ?? '-' }}
+                    </p>
+
+                    <p class="mb-3">
+                        <span class="badge {{ strtolower($u->status) === 'aktif' ? 'bg-success' : 'bg-secondary' }}">
+                            {{ ucfirst($u->status) }}
+                        </span>
+                    </p>
+
+                    <a href="{{ url('/user/umkm/'.$u->id) }}" class="btn btn-primary mt-auto">
+                        Lihat Detail
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    @empty
+        <div class="col-12">
+            <div class="alert alert-warning text-center">
+                Data UMKM belum tersedia
+            </div>
+        </div>
+    @endforelse
+</div>
+
+@endsection

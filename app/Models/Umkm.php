@@ -9,6 +9,7 @@ class Umkm extends Model
     protected $table = 'umkm';
 
     protected $fillable = [
+        'user_id',           // ⬅️ WAJIB
         'nama_umkm',
         'pemilik',
         'kategori',
@@ -23,5 +24,9 @@ class Umkm extends Model
     {
         return $this->hasMany(Monitoring::class);
     }
-}
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+}

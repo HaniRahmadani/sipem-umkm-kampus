@@ -13,8 +13,7 @@
         name="search"
         value="{{ request('search') }}"
         class="form-control me-2"
-        placeholder="Cari UMKM..."
-    >
+        placeholder="Cari UMKM...">
     <button class="btn btn-secondary">Cari</button>
 </form>
 

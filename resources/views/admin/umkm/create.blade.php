@@ -75,7 +75,16 @@
         @csrf
 
         <label>Nama UMKM</label>
-        <input type="text" name="nama" required>
+        <input type="text" name="nama_umkm" required>
+
+        <label>Nama Pemilik</label>
+        <input type="text" name="pemilik" required>
+
+        <label>Kontak pemilik </label>
+        <input type="text" name="kontak" required>
+
+        <label> Deskripsi</label>
+        <input type="text" name="deskripsi" required>
 
         <label>Kategori</label>
         <input type="text" name="kategori" required>
@@ -83,11 +92,11 @@
         <label>Status</label>
         <input type="text" name="status" required>
 
-        <label>Jam Operasional></label>
+        <label>Jam Operasional</label>
         <input type="text" name="jam_operasional" required>
 
         <label> Alamat</label>
-        <input type="text" name="alamat" require>
+        <input type="text" name="alamat" required>
 
         <button type="submit">Simpan</button>
     </form>
